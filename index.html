@@ -6,8 +6,9 @@
     <link href="/src/css/style.css" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="./src/js/script.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 </head>
-<body>
+<body class="">
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" @resize.window="watchScreen()">
         <div class="flex h-screen antialiased text-zinc-900 bg-white">
             <!-- Loading screen -->
@@ -16,12 +17,12 @@
             </div>
 
             <!-- Sidebar -->
-            <div class="flex flex-shrink-0 transition-all">
+            <div class="fixed h-full overflow-y-auto flex flex-shrink-0 transition-all z-10">
                 <div x-show="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 z-10 bg-black bg-opacity-50 lg:hidden"></div>
-                <div x-show="isSidebarOpen" class="fixed inset-y-0 z-10 w-16 bg-white"></div>
+                <div x-show="isSidebarOpen" class="fixed inset-y-0 z-120 w-16 bg-white"></div>
 
                 <!-- Mobile bottom bar -->
-                <nav aria-label="Options" class="fixed inset-x-0 bottom-0 flex flex-row-reverse items-center justify-between px-4 py-2 bg-zinc-900 lg:hidden">
+                <nav aria-label="Options" class="fixed inset-x-0 bottom-0 flex flex-row-reverse items-center justify-between px-4 py-2 bg-zinc-900 lg:hidden z-10">
                     <!-- Menu button -->
                     <button @click="(isSidebarOpen && currentSidebarTab == 'linksTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'linksTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'linksTab') ? 'text-white bg-zinc-600' : 'text-zinc-500 bg-zinc-800'">
                         <span class="sr-only">Toggle sidebar</span>
@@ -41,7 +42,6 @@
                         </button>
                         <div x-show="isOpen" @click.away="isOpen = false" @keydown.escape="isOpen = false" x-ref="userMenu" tabindex="-1" class="absolute w-48 py-1 mt-2 origin-bottom-left bg-white rounded-md shadow-lg left-12 bottom-9 focus:outline-none" role="menu" aria-orientation="vertical" aria-label="user menu">
                             <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Settings</a>
                             <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Sign out</a>
                         </div>
                     </div>
@@ -60,12 +60,6 @@
                         <button @click="(isSidebarOpen && currentSidebarTab == 'linksTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'linksTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'linksTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
                             <span class="sr-only">Toggle sidebar</span>
                             <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                        </button>
-                    
-                        <!-- Messages button -->
-                        <button @click="(isSidebarOpen && currentSidebarTab == 'messagesTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'messagesTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'messagesTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
-                            <span class="sr-only">Toggle message panel</span>
-                            <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                         </button>
                         
                         <!-- Notifications button -->
@@ -89,7 +83,6 @@
                         </button>
                         <div x-show="isOpen" @click.away="isOpen = false" @keydown.escape="isOpen = false" x-ref="userMenu" tabindex="-1" class="absolute w-48 py-1 mt-2 origin-bottom-left bg-white rounded-md shadow-lg left-10 bottom-14 focus:outline-none" role="menu" aria-orientation="vertical" aria-label="user menu">
                             <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Settings</a>
                             <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Sign out</a>
                         </div>
                     </div>
@@ -103,11 +96,22 @@
 
                         <!-- Links -->
                         <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto">
-                            <a href="#" class="flex items-center w-full space-x-2 text-white bg-zinc-600 rounded-lg">
+                            <a href="/index.html" class="flex items-center w-full space-x-2 text-white bg-zinc-600 rounded-lg">
                                 <span aria-hidden="true" class="p-2 bg-zinc-700 rounded-lg">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                                 </span>
                                 <span class="text-sm">Home</span>
+                            </a>
+                            <a href="/typography.html" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="17.5" cy="15.5" r="3.5"></circle><path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5"></path><path d="M3 13h7"></path><path d="M21 12v7"></path></svg>                                
+                                </span>
+                                <span class="text-sm">Typography</span>
+                            </a>
+                            <a href="/forms.html" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path><rect x="9" y="3" width="6" height="4" rx="2"></rect><line x1="9" y1="12" x2="9.01" y2="12"></line><line x1="13" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="9.01" y2="16"></line><line x1="13" y1="16" x2="15" y2="16"></line></svg>                                </span>
+                                <span class="text-sm">Forms</span>
                             </a>
                             <a href="#" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
                                 <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
@@ -115,12 +119,20 @@
                                 </span>
                                 <span class="text-sm">Pages</span>
                             </a>
+                            <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                </span>
+                                <span class="text-sm">Notifications</span>
+                            </a>
+                            <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </span>
+                                <span class="text-sm">Settings</span>
+                            </a>
                         </div>
                     </nav>
-
-                    <section x-show="currentSidebarTab == 'messagesTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
-                        <h2 class="text-white">Messages</h2>
-                    </section>
 
                     <section x-show="currentSidebarTab == 'notificationsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
                         <h2 class="text-white">Notifications</h2>
@@ -131,23 +143,287 @@
                     </section>
                 </div>
             </div>
-            <div class="flex flex-col flex-1">
-                <div class="flex flex-1">
-                    <!-- Main -->
-                    <main class="px-4">
-                        <!-- Breadcrumb -->
-                        <h6 class="flex justify-start flex-1 py-8 text-sm text-zinc-700"><small>Dashboard / Home</small></h6>
-                        
-                        <!-- Content -->
-                        <div class="text-sm text-zinc-700">
-                            Content here
+            <div class="container mx-auto">
+                <!-- Main -->
+                <main class="px-4 overflow-hidden pb-24">
+                    <!-- Breadcrumb -->
+                    <h6 class="flex justify-start flex-1 py-8 text-sm text-zinc-700"><small>Dashboard / Home</small></h6>
+                    
+                    <!-- Content -->
+                    <!-- Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+                        <div class="p-4 bg-white rounded-md shadow-md">
+                            <div class="flex justify-between gap-3 p-4">
+                                <div class="flex items-center">
+                                    <div class="p-4 bg-zinc-900 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <circle cx="6" cy="19" r="2"></circle>
+                                            <circle cx="17" cy="19" r="2"></circle>
+                                            <path d="M17 17h-11v-14h-2"></path>
+                                            <path d="M6 5l14 1l-1 7h-13"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <div class="mb-2">
+                                        <p class="mb-1 text-sm font-semibold text-zinc-600">Monthly Sales</p>
+                                    </div>
+                                    <p class="mb-1 text-xl font-semibold text-right">$11,805.25</p>
+                                </div>
+                            </div>
                         </div>
-                    </main>
-                </div>
+                        <div class="p-4 bg-white rounded-md shadow-md">
+                            <div class="flex justify-between gap-3 p-4">
+                                <div class="flex items-center">
+                                    <div class="p-4 bg-zinc-900 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <rect x="3" y="5" width="18" height="14" rx="3"></rect>
+                                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                                            <line x1="7" y1="15" x2="7.01" y2="15"></line>
+                                            <line x1="11" y1="15" x2="13" y2="15"></line>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <div class="mb-2">
+                                        <p class="mb-1 text-sm font-semibold text-zinc-600">Monthly Orders</p>
+                                    </div>
+                                    <p class="mb-1 text-xl font-semibold text-right">1,121</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-md shadow-md">
+                            <div class="flex justify-between gap-3 p-4">
+                                <div class="flex items-center">
+                                    <div class="p-4 bg-zinc-900 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <div class="mb-2">
+                                        <p class="mb-1 text-sm font-semibold text-zinc-600">Total Customers</p>
+                                    </div>
+                                    <p class="mb-1 text-xl font-semibold text-right">32,689</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-white rounded-md shadow-md">
+                            <div class="flex justify-between gap-3 p-4">
+                                <div class="flex items-center">
+                                    <div class="p-4 bg-zinc-900 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
+                                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
+                                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
+                                            <line x1="11" y1="6" x2="20" y2="6"></line>
+                                            <line x1="11" y1="12" x2="20" y2="12"></line>
+                                            <line x1="11" y1="18" x2="20" y2="18"></line>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col justify-between">
+                                    <div class="mb-2">
+                                        <p class="mb-1 text-sm font-semibold text-zinc-600">Pending Tasks</p>
+                                    </div>
+                                    <p class="mb-1 text-xl font-semibold text-right">473</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-hidden mb-8">
+                        <div class="overflow-x-auto relative">
+                            <div class="py-2 align-middle inline-block min-w-full">
+                                <div class="shadow-md overflow-hidden border-b border-zinc-200 rounded-md">
+                                    <div class="flex py-2 items-center justify-between px-6 bg-white">
+                                        <h6 class="text-base font-bold">Title</h6>
+                                        <!-- Search -->
+                                        <div class="flex border border-zinc-500 rounded-md p-1">
+                                            <input type="text" class="p-1 border-none text-xs focus:outline-none focus:ring-0" id="search_input" aria-label="Search" placeholder="Search">
+                                            <button type="button" id="search_button" class="ml-2 focus:outline-none">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <table class="w-full divide-y divide-zinc-200">
+                                        <thead class="bg-zinc-100">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                                                    Name
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                                                    Title
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                                                    Status
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                                                    Role
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-zinc-200">
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10">
+                                                            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-bold text-zinc-900">
+                                                                Jane Cooper
+                                                            </div>
+                                                            <div class="text-sm text-zinc-500">
+                                                                jane.cooper@email.com
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-bold text-zinc-900">Regional Paradigm Technician</div>
+                                                    <div class="text-sm text-zinc-500">Optimization</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-500 text-white">
+                                                        Active
+                                                    </span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-500">
+                                                    Admin
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <a href="#">
+                                                            <button type="button" class="bg-transparent border-0 pr-5">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-eye text-zinc-500 hover:text-zinc-900" width="18" height="18"
+                                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <circle cx="12" cy="12" r="2"></circle>
+                                                                    <path
+                                                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                                                    </path>
+                                                                </svg>
+                                                            </button>
+                                                        </a>
+                                                        <a href="#">
+                                                            <button type="button" class="bg-transparent border-0 pr-5">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-edit text-zinc-500 hover:text-zinc-900" width="18" height="18"
+                                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3">
+                                                                    </path>
+                                                                    <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3"></path>
+                                                                    <line x1="16" y1="5" x2="19" y2="8"></line>
+                                                                </svg>
+                                                            </button>
+                                                        </a>
+                                                        <form action="" method="POST">
+                                                            <button type="submit" class="bg-transparent border-0 text-decoration-none">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="icon icon-tabler icon-tabler-trash text-zinc-500 hover:text-zinc-900" width="18" height="18"
+                                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                                    stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <line x1="4" y1="7" x2="20" y2="7"></line>
+                                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>                    
+                                        </tbody>
+                                    </table>
+                                    <!-- Pagination -->
+                                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t sm:px-4">
+                                        <div class="flex-1 flex justify-between sm:hidden">
+                                            <a href="#" class="relative inline-flex items-center px-4 py-2 border text-xs font-normal rounded-md text-zinc-500 bg-white">
+                                                Previous
+                                            </a>
+                                            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border text-xs font-normal rounded-md text-zinc-500 bg-white">
+                                                Next
+                                            </a>
+                                        </div>
+                                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                            <div>
+                                                <p class="text-xs text-zinc-500">
+                                                    Showing
+                                                    <span class="font-normal">1</span>
+                                                    to
+                                                    <span class="font-normal">10</span>
+                                                    of
+                                                    <span class="font-normal">97</span>
+                                                    results
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <nav class="relative z-0 inline-flex -space-x-px" aria-label="Pagination">
+                                                    <a href="#" class="relative inline-flex items-center py-2 bg-white text-xs font-normal text-zinc-500">
+                                                        <span class="sr-only">Previous</span>
+                                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </a>
+                                                    <a href="#" aria-current="page" class="z-10 text-white relative inline-flex items-center px-4 text-xs font-bold bg-zinc-900 rounded">
+                                                        1
+                                                    </a>
+                                                    <a href="#" class="bg-white text-zinc-500 relative inline-flex items-center px-4 text-xs font-normal hover:bg-zinc-100 rounded">
+                                                        2
+                                                    </a>
+                                                    <a href="#" class="bg-white text-zinc-500 hidden md:inline-flex relative items-center px-4 text-xs font-normal hover:bg-zinc-100 rounded">
+                                                        3
+                                                    </a>
+                                                    <span class="relative inline-flex items-center p-2 bg-white text-xs font-normal text-zinc-500">
+                                                        ...
+                                                    </span>
+                                                    <a href="#" class="bg-white text-zinc-500 hidden md:inline-flex relative items-center px-4 text-xs font-normal hover:bg-zinc-100 rounded">
+                                                        8
+                                                    </a>
+                                                    <a href="#" class="bg-white text-zinc-500 relative inline-flex items-center px-4 text-xs font-normal hover:bg-zinc-100 rounded">
+                                                        9
+                                                    </a>
+                                                    <a href="#" class="bg-white text-zinc-500 relative inline-flex items-center px-4 text-xs font-normal hover:bg-zinc-100 rounded">
+                                                        10
+                                                    </a>
+                                                    <a href="#" class="relative inline-flex items-center py-2 rounded-r-md bg-white text-xs font-normal text-zinc-500 ">
+                                                        <span class="sr-only">Next</span>
+                                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                        </svg>
+                                                    </a>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
             </div>
 
             <!-- Footer -->
-            <footer class="absolute bottom-0 w-full mb-1 text-center lg:w-auto lg:right-6">
+            <footer class="fixed hidden lg:block bottom-0 w-full mb-1 text-center lg:w-auto lg:right-6">
                 <p class="text-sm"><small>Dashbuilt © <span id="footerCurrentYear"></span></small></p>
                 <!-- 
                     Handle footer current year.

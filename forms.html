@@ -1,0 +1,378 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/src/css/style.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="./src/js/script.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+</head>
+<body class="">
+    <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" @resize.window="watchScreen()">
+        <div class="flex h-screen antialiased text-zinc-900 bg-white">
+            <!-- Loading screen -->
+            <div x-ref="loading" class="fixed inset-0 z-50 flex items-center justify-center text-white bg-zinc-900">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="fixed h-full overflow-y-auto flex flex-shrink-0 transition-all z-10">
+                <div x-show="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 z-10 bg-black bg-opacity-50 lg:hidden"></div>
+                <div x-show="isSidebarOpen" class="fixed inset-y-0 z-10 w-16 bg-white"></div>
+
+                <!-- Mobile bottom bar -->
+                <nav aria-label="Options" class="fixed inset-x-0 bottom-0 flex flex-row-reverse items-center justify-between px-4 py-2 bg-zinc-900 lg:hidden z-10">
+                    <!-- Menu button -->
+                    <button @click="(isSidebarOpen && currentSidebarTab == 'linksTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'linksTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'linksTab') ? 'text-white bg-zinc-600' : 'text-zinc-500 bg-zinc-800'">
+                        <span class="sr-only">Toggle sidebar</span>
+                        <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+
+                    <!-- Logo -->
+                    <a href="index.html">
+                        <img class="w-8 h-auto" src="/src/img/logo.png" alt="logo"/>
+                    </a>
+
+                    <!-- User avatar button -->
+                    <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})" class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none">
+                            <img class="w-8 h-8 rounded-lg shadow-md" src="/src/img/avatar.jpeg" alt="avatar image"/>
+                            <span class="sr-only">User menu</span>
+                        </button>
+                        <div x-show="isOpen" @click.away="isOpen = false" @keydown.escape="isOpen = false" x-ref="userMenu" tabindex="-1" class="absolute w-48 py-1 mt-2 origin-bottom-left bg-white rounded-md shadow-lg left-12 bottom-9 focus:outline-none" role="menu" aria-orientation="vertical" aria-label="user menu">
+                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Your Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Sign out</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- Left mini bar -->
+                <nav aria-label="Options" class="z-20 flex-col items-center flex-shrink-0 hidden w-16 py-4 border-r border-zinc-800 bg-zinc-900 lg:flex">
+                    <!-- Logo -->
+                    <div class="flex-shrink-0 py-4">
+                        <a href="index.html">
+                            <img class="w-8 h-auto" src="/src/img/logo.png" alt="logo"/>
+                        </a>
+                    </div>
+                    <div class="flex flex-col items-center flex-1 p-2 space-y-4">
+                        <!-- Menu button -->
+                        <button @click="(isSidebarOpen && currentSidebarTab == 'linksTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'linksTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'linksTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
+                            <span class="sr-only">Toggle sidebar</span>
+                            <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        </button>
+                        
+                        <!-- Notifications button -->
+                        <button @click="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'notificationsTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
+                            <span class="sr-only">Toggle notifications panel</span>
+                            <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        </button>
+                        
+                        <!-- Settings button -->
+                        <button @click="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'settingsTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
+                            <span class="sr-only">Toggle settings panel</span>
+                            <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- User avatar -->
+                    <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})" class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none">
+                            <img class="w-10 h-10 md:w-8 md:h-8 rounded-lg shadow-md" src="/src/img/avatar.jpeg" alt="avatar image"/>
+                            <span class="sr-only">User menu</span>
+                        </button>
+                        <div x-show="isOpen" @click.away="isOpen = false" @keydown.escape="isOpen = false" x-ref="userMenu" tabindex="-1" class="absolute w-48 py-1 mt-2 origin-bottom-left bg-white rounded-md shadow-lg left-10 bottom-14 focus:outline-none" role="menu" aria-orientation="vertical" aria-label="user menu">
+                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Your Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-100" role="menuitem">Sign out</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div x-transition:enter="transform transition-transform duration-300" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transform transition-transform duration-300" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" x-show="isSidebarOpen" class="fixed inset-y-0 left-0 z-10 flex-shrink-0 w-64 bg-zinc-900 sm:left-16 md:-left-1 rounded-tr-3xl rounded-br-3xl sm:w-72 lg:static lg:w-64">
+                    <nav x-show="currentSidebarTab == 'linksTab'" aria-label="Main" class="flex flex-col h-full">
+                        <div class="flex items-center justify-center flex-shrink-0 py-[28.5px] uppercase font-extrabold text-white tracking-wider">
+                            Dashboard
+                        </div>
+
+                        <!-- Links -->
+                        <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto">
+                            <a href="/index.html" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                </span>
+                                <span class="text-sm">Home</span>
+                            </a>
+                            <a href="/typography.html" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="17.5" cy="15.5" r="3.5"></circle><path d="M3 19v-10.5a3.5 3.5 0 0 1 7 0v10.5"></path><path d="M3 13h7"></path><path d="M21 12v7"></path></svg>                                
+                                </span>
+                                <span class="text-sm">Typography</span>
+                            </a>
+                            <a href="/forms.html" class="flex items-center w-full space-x-2 text-white bg-zinc-600 rounded-lg">
+                                <span aria-hidden="true" class="p-2 bg-zinc-700 rounded-lg">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"></path><rect x="9" y="3" width="6" height="4" rx="2"></rect><line x1="9" y1="12" x2="9.01" y2="12"></line><line x1="13" y1="12" x2="15" y2="12"></line><line x1="9" y1="16" x2="9.01" y2="16"></line><line x1="13" y1="16" x2="15" y2="16"></line></svg>                                </span>
+                                <span class="text-sm">Forms</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+                                </span>
+                                <span class="text-sm">Pages</span>
+                            </a>
+                            <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                </span>
+                                <span class="text-sm">Notifications</span>
+                            </a>
+                            <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                                <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </span>
+                                <span class="text-sm">Settings</span>
+                            </a>
+                        </div>
+                    </nav>
+
+                    <section x-show="currentSidebarTab == 'notificationsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
+                        <h2 class="text-white">Notifications</h2>
+                    </section>
+
+                    <section x-show="currentSidebarTab == 'settingsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
+                        <h2 class="text-white">Settings</h2>
+                    </section>
+                </div>
+            </div>
+            <div class="container mx-auto">
+                <!-- Main -->
+                <main class="px-4 overflow-hidden pb-24">
+                    <!-- Breadcrumb -->
+                    <h6 class="flex justify-start flex-1 py-8 text-sm text-zinc-700"><small>Dashboard / Forms</small></h6>
+                    
+                    <!-- Content -->
+                    <!-- Example -->
+                    <div class="mb-4">
+                        <p class="mb-1 text-xl font-semibold">Example</p>
+                    </div>
+                    <div class="p-4 mb-8 bg-white rounded-md shadow-md">
+
+                        <!-- Input Text -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-example" class="mb-1 text-sm font-semibold">Input</label>
+                            </div>
+                            <input type="text" id="input-example" name="input_example" placeholder="Input example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                        </div>
+
+                        <!-- Select -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="select-example" class="mb-1 text-sm font-semibold">Select</label>
+                            </div>
+                            <select name="select_example" id="select-example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                <option value="" selected>Select example</option>
+                                <option value="Option 1">Option 1</option>
+                                <option value="Option 2">Option 2</option>
+                                <option value="Option 3">Option 3</option>
+                            </select>
+                        </div>
+
+                        <!-- Text Area -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="text-area-example" class="mb-1 text-sm font-semibold">Text Area</label>
+                            </div>
+                            <textarea id="text-area-example" name="text_area_example" placeholder="Text area example" rows="8" class="w-full px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none"></textarea>
+                        </div>
+
+                        <!-- Input Checkbox -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <p class="mb-1 text-sm font-semibold">Checkbox</p>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="checkbox-example" name="checkbox_example" value="Checkbox Example" class="w-4 h-4 text-zinc-700 border border-zinc-400 rounded appearance-none checked:bg-zinc-700 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                <label for="checkbox-example" class="ml-2 text-sm">Checkbox item</label>
+                            </div>
+                        </div>
+
+                        <!-- Input Radio -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <p class="mb-1 text-sm font-semibold">Radio</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="flex items-center">
+                                    <input type="radio" id="radio-example-1" name="radio_example" value="Radio Example 1" class="w-4 h-4 text-zinc-700 border border-zinc-400 rounded-full appearance-none checked:bg-zinc-700 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                    <label for="radio-example-1" class="ml-2 text-sm">Radio item 1</label>
+                                </span>
+                                <span class="flex items-center">
+                                    <input type="radio" id="radio-example-2" name="radio_example" value="Radio Example 2" class="w-4 h-4 text-zinc-700 border border-zinc-400 rounded-full appearance-none checked:bg-zinc-700 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                    <label for="radio-example-2" class="ml-2 text-sm">Radio item 2</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Input File -->
+                        <div>
+                            <div class="mb-2">
+                                <label for="upload-file-example" class="mb-1 text-sm font-semibold">Upload file</label>
+                            </div>
+                            <input type="file" id="upload-file-example" name="upload_file_example" class="h-10 mb-1 text-sm transition bg-transparent border-0 rounded appearance-none file:font-semibold focus:outline-none focus:ring-0 file:border-0 file:h-10 file:px-6 file:disabled:bg-zinc-400 disabled:pointer-events-none file:bg-zinc-900 file:text-white file:hover:bg-zinc-800 file:rounded file:mr-4">
+                        </div>
+                    </div>
+
+                    <!-- Disabled -->
+                    <div class="mb-4">
+                        <p class="mb-1 text-xl font-semibold">Disabled</p>
+                    </div>
+                    <div class="p-4 mb-8 bg-white rounded-md shadow-md">
+
+                        <!-- Input Text Disabled -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-disabled-example" class="mb-1 text-sm font-semibold">Input</label>
+                            </div>
+                            <input type="text" id="input-disabled-example" name="input_disabled_example" placeholder="Input disabled example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled>
+                        </div>
+
+                        <!-- Select Disabled -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="select-disabled-example" class="mb-1 text-sm font-semibold">Select</label>
+                            </div>
+                            <select name="select_disabled_example" id="select-disabled-example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled>
+                                <option value="" selected>Select disabled example</option>
+                                <option value="Option 1">Option 1</option>
+                                <option value="Option 2">Option 2</option>
+                                <option value="Option 3">Option 3</option>
+                            </select>
+                        </div>
+
+                        <!-- Text Area Disabled -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="text-area-disabled-example" class="mb-1 text-sm font-semibold">Text Area</label>
+                            </div>
+                            <textarea id="text-area-disabled-example" name="text_area_disabled_example" placeholder="Text area disabled example" rows="8" class="w-full px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled></textarea>
+                        </div>
+
+                        <!-- Input Checkbox Disabled -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <p class="mb-1 text-sm font-semibold">Checkbox</p>
+                            </div>
+                             <div class="flex items-center">
+                                <input type="checkbox" id="checkbox-disable-example" name="checkbox_disabled_example" value="Checkbox Disabled Example" class="w-4 h-4 text-zinc-700 bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled>
+                                <label for="checkbox-disable-example" class="ml-2 text-sm">Checkbox item</label>
+                            </div>
+                        </div>
+
+                        <!-- Input Radio Disabled -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <p class="mb-1 text-sm font-semibold">Radio</p>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="flex items-center">
+                                    <input type="radio" id="radio-disabled-example-1" name="radio_disabled_example" value="Radio Disabled Example 1" class="w-4 h-4 text-zinc-700 bg-transparent border border-zinc-400 appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled>
+                                    <label for="radio-disabled-example-1" class="ml-2 text-sm">Radio item 1</label>
+                                </span>
+                                <span class="flex items-center">
+                                    <input type="radio" id="radio-disabled-example-2" name="radio_disabled_example" value="Radio Example 2" class="w-4 h-4 text-zinc-700 bg-transparent border border-zinc-400 appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" disabled>
+                                    <label for="radio-disabled-example-2" class="ml-2 text-sm">Radio item 2</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Input File Disabled -->
+                        <div>
+                            <div class="mb-2">
+                                <label for="upload-file-disabled-example" class="mb-1 text-sm font-semibold">Upload file</label>
+                            </div>
+                            <input type="file" id="upload-file-disabled-example" name="upload_file_disabled_example" class="h-10 mb-1 text-sm transition bg-transparent border-0 rounded appearance-none file:font-semibold focus:outline-none focus:ring-0 file:border-0 file:h-10 file:px-6 file:disabled:bg-zinc-400 disabled:pointer-events-none file:bg-zinc-700 file:text-white file:hover:bg-zinc-600 file:rounded file:mr-4" disabled>
+                        </div>
+                    </div>
+
+                    <!-- Icon -->
+                    <div class="mb-4">
+                        <p class="mb-1 text-xl font-semibold">Icons</p>
+                    </div>
+                    <div class="p-4 mb-8 bg-white rounded-md shadow-md">
+
+                        <!-- Left Icon -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-left-icon-example" class="mb-1 text-sm font-semibold">Left Icon</label>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input type="text" id="input-left-icon-example" name="input_left_icon_example" placeholder="Input example" class="w-full h-10 pl-8 pr-2 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2 stroke-zinc-500" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Right Icon -->
+                        <div>
+                            <div class="mb-2">
+                                <label for="input-right-icon-example" class="mb-1 text-sm font-semibold">Right Icon</label>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input type="text" id="input-right-icon-example" name="input_left_icon_example" placeholder="Input example" class="w-full h-10 pl-2 pr-8 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-2 stroke-zinc-500" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Validation -->
+                    <div class="mb-4">
+                        <p class="mb-1 text-xl font-semibold">Text Validation</p>
+                    </div>
+                    <div class="p-4 mb-8 bg-white rounded-md shadow-md">
+
+                        <!-- Valid Input -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-valid-example" class="mb-1 text-sm font-semibold">Valid Input</label>
+                            </div>
+                            <input type="text" id="input-valid-example" name="input_valid_example" placeholder="Input valid example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                            <p class="mb-1 text-xs text-green-700">Input is valid.</p>
+                        </div>
+
+                        <!-- Invalid Input -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-invalid-example" class="mb-1 text-sm font-semibold">Invalid Input</label>
+                            </div>
+                            <input type="text" id="input-invalid-example" name="input_valid_example" placeholder="Input invalid example" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-zinc-400 rounded appearance-none disabled:bg-zinc-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                            <p class="mb-1 text-xs text-red-700">Input is invalid.</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+
+            <!-- Footer -->
+            <footer class="fixed hidden lg:block bottom-0 w-full mb-1 text-center lg:w-auto lg:right-6">
+                <p class="text-sm"><small>Dashbuilt © <span id="footerCurrentYear"></span></small></p>
+                <!-- 
+                    Handle footer current year.
+        
+                    These codes below are called here instead of being inside script.js to 
+                    avoid FOUC should script.js type is defined as a module. 
+                -------------------------------------------------------------------------->
+                <script>
+                    const element = document.getElementById("footerCurrentYear");
+                    element.innerHTML = new Date().getFullYear();
+                </script>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
