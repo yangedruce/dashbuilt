@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/src/css/style.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="./src/js/script.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+</head>
+<body>
+    <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" @resize.window="watchScreen()">
+        <div class="flex h-screen antialiased text-zinc-900 bg-white">
+            <!-- Loading screen -->
+            <div x-ref="loading" class="fixed inset-0 z-50 flex items-center justify-center text-white bg-zinc-900">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+            </div>
+
+            <div class="container max-w-md mx-auto">
+                <!-- Main -->
+                <main class="px-4 overflow-hidden h-screen">
+                    <!-- Content -->
+                    <!-- Login form -->
+                    <form action="#" class="p-4 my-8 bg-white rounded-md shadow-md">
+                        <div class="my-4">
+                            <p class="text-2xl font-semibold text-center">Login</p>
+                        </div>
+
+                        <!-- Email input -->
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label for="input-email" class="block mb-1 text-sm font-semibold">Email</label>
+                            </div>
+                            <input type="email" id="input-email" name="input_email" placeholder="Enter email" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-gray-400 rounded appearance-none disabled:bg-gray-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" required>
+                        </div>
+
+                        <!-- Password input -->
+                        <div>
+                            <div class="mb-2">
+                                <label for="input-password" class="block mb-1 text-sm font-semibold">Password</label>
+                            </div>
+                            <input type="password" id="input-password" name="input_password" placeholder="Enter password" class="w-full h-10 px-2 mb-1 text-sm bg-transparent border border-gray-400 rounded appearance-none disabled:bg-gray-100 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none" required>
+                        </div>
+
+                        <div class="flex justify-between mb-8">
+                            
+                            <!-- Remember me checkbox -->
+                            <div class="flex items-center">
+                                <input type="checkbox" id="checkbox-remember-me" name="checkbox_remember_me" value="Remember me" class="w-4 h-4 border rounded appearance-none text-zinc-700 border-zinc-400 checked:bg-zinc-700 focus:border-zinc-500 focus:ring-zinc-500 focus:outline-none">
+                                <label for="checkbox-remember-me" class="ml-2 text-sm">Remember me</label>
+                            </div>
+
+                            <!-- Forgot password -->
+                            <a href="./forgot-password" class="inline-block mb-1 text-sm text-zinc-600 hover:text-zinc-500">Forgot password?</a>
+                        </div>
+
+                        <!-- Login button -->
+                        <div class="mb-8">
+                            <button type="submit" class="w-full h-10 px-6 py-2 mb-1 text-sm font-semibold text-center text-white align-middle transition bg-zinc-900 border border-zinc-700 rounded hover:bg-zinc-800 hover:border-zinc-600 disabled:bg-zinc-400 disabled:border-zinc-400 disabled:pointer-events-none">Login</button>
+                        </div>
+                        
+                        <hr class="mb-8 border-gray-300">
+                        
+                        <!-- Login with Gmail -->
+                        <div class="mb-4">
+                            <a href="#" class="inline-block w-full h-10 px-6 py-2 mb-1 text-sm font-semibold text-center text-zinc-700 transition bg-transparent border border-zinc-700 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-600">
+                                <div class="flex justify-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M16 20h3a1 1 0 0 0 1 -1v-14a1 1 0 0 0 -1 -1h-3v16z" />
+                                        <path d="M5 20h3v-16h-3a1 1 0 0 0 -1 1v14a1 1 0 0 0 1 1z" />
+                                        <path d="M16 4l-4 4l-4 -4" />
+                                        <path d="M4 6.5l8 7.5l8 -7.5" />
+                                    </svg>
+                                    <span>Login with Gmail</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Login with Facebook -->
+                        <div class="mb-4">
+                            <a href="#" class="inline-block w-full h-10 px-6 py-2 mb-1 text-sm font-semibold text-center text-zinc-700 transition bg-transparent border border-zinc-700 rounded hover:bg-zinc-800 hover:text-white hover:border-zinc-600">
+                                <div class="flex justify-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+                                    </svg>
+                                    <span>Login with Facebook</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Sign up link -->
+                        <div class="mb-4 text-center">
+                            <a href="./sign-up" class="inline-block mb-1 text-sm text-zinc-600 transition hover:text-zinc-500">New user? Create an account here</a>
+                        </div>
+                    </form>
+                </main>
+            </div>
+
+            <!-- Footer -->
+            <footer class="fixed hidden lg:block bottom-0 w-full mb-1 text-center lg:w-auto lg:right-6">
+                <p class="text-sm"><small>Dashbuilt © <span id="footerCurrentYear"></span></small></p>
+                <!-- 
+                    Handle footer current year.
+        
+                    These codes below are called here instead of being inside script.js to 
+                    avoid FOUC should script.js type is defined as a module. 
+                -------------------------------------------------------------------------->
+                <script>
+                    const element = document.getElementById("footerCurrentYear");
+                    element.innerHTML = new Date().getFullYear();
+                </script>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
