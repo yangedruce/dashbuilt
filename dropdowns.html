@@ -260,7 +260,98 @@
                     <h6 class="flex justify-start flex-1 py-8 text-sm text-zinc-700"><small>Dashboard / Dropdowns</small></h6>
                     
                     <!-- Content -->
-                    
+                    <!-- Sizes -->
+                    <div class="mb-8">
+                        <p class="mb-4 text-xl font-semibold">Sizes</p>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 bg-white rounded-md shadow-md">
+                            <!-- Small -->
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-sm font-semibold">Small</p>
+                                </div>
+                                <div x-data="{ open: false }" class="h-40 mb-4">
+                                    <button @click="open = true" class="h-10 px-6 py-2 mb-1 text-sm font-semibold text-white transition border rounded bg-zinc-900 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600">Dropdown</button>
+
+                                    <ul class="w-32 py-2 overflow-y-auto transition origin-top-left bg-white border border-gray-100 rounded-md shadow-md top-12 max-h-80" x-show="open" @click.away="open = false">
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item One</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Two</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Three</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <!-- Medium -->
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-sm font-semibold">Medium</p>
+                                </div>
+                                <div x-data="{ open: false }" class="h-40 mb-4">
+                                    <button @click="open = true" class="h-10 px-6 py-2 mb-1 text-sm font-semibold text-white transition border rounded bg-zinc-900 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600">Dropdown</button>
+
+                                    <ul class="w-48 py-2 overflow-y-auto transition origin-top-left bg-white border border-gray-100 rounded-md shadow-md top-12 max-h-80" x-show="open" @click.away="open = false">
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item One</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Two</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Three</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Large -->
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-sm font-semibold">Large</p>
+                                </div>
+                                <div x-data="{ open: false }" class="h-40 mb-4">
+                                    <button @click="open = true" class="h-10 px-6 py-2 mb-1 text-sm font-semibold text-white transition border rounded bg-zinc-900 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600">Dropdown</button>
+
+                                    <ul class="w-64 py-2 overflow-y-auto transition origin-top-left bg-white border border-gray-100 rounded-md shadow-md top-12 max-h-80" x-show="open" @click.away="open = false">
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item One</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Two</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Three</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Placement -->
+                    <div class="mb-8">
+                        <p class="mb-4 text-xl font-semibold">Placement</p>
+                        <div class="flex items-center justify-between p-4 bg-white rounded-md shadow-md">
+                            <!-- Left -->
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-sm font-semibold">Left Side</p>
+                                </div>
+                                <div x-data="{ open: false }" class="h-40 mb-4">
+                                    <button @click="open = true" class="h-10 px-6 py-2 mb-1 text-sm font-semibold text-white transition border rounded bg-zinc-900 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600">Dropdown</button>
+
+                                    <ul class="w-32 md:w-48 py-2 overflow-y-auto transition origin-top-left bg-white border border-gray-100 rounded-md shadow-md top-12 max-h-80" x-show="open" x-transition.origin.top.left @click.away="open = false">
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item One</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Two</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Three</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Right -->
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-sm font-semibold">Right Side</p>
+                                </div>
+                                <div x-data="{ open: false }" class="relative h-40 mb-4">
+                                    <button @click="open = true" class="h-10 px-6 py-2 mb-1 text-sm font-semibold text-white transition border rounded bg-zinc-900 border-zinc-700 hover:bg-zinc-800 hover:border-zinc-600">Dropdown</button>
+
+                                    <ul class="w-32 md:w-48 py-2 absolute right-0 overflow-y-auto transition origin-top-right bg-white border border-gray-100 rounded-md shadow-md top-12 max-h-80" x-show="open" x-transition.origin.top.right @click.away="open = false">
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item One</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Two</a></li>
+                                        <li><a href="#" class="block px-4 py-2 text-sm font-medium hover:text-zinc-500">Item Three</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
             </div>
 
