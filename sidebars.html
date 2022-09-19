@@ -8,7 +8,7 @@
     <script src="./src/js/script.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 </head>
-<body class="">
+<body>
     <div x-data="setup()" x-init="$refs.loading.classList.add('hidden');" @resize.window="watchScreen()">
         <div class="flex h-screen antialiased text-zinc-900 bg-white">
             <!-- Loading screen -->
@@ -19,7 +19,7 @@
             <!-- Sidebar -->
             <div class="fixed h-full flex flex-shrink-0 transition-all z-10">
                 <div x-show="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 z-10 bg-black bg-opacity-50 lg:hidden"></div>
-                <div x-show="isSidebarOpen" class="fixed inset-y-0 z-120 w-16 bg-white"></div>
+                <div x-show="isSidebarOpen" class="fixed inset-y-50z-120 w-16 bg-white"></div>
 
                 <!-- Mobile bottom bar -->
                 <nav aria-label="Options" class="fixed inset-x-0 bottom-0 flex flex-row-reverse items-center justify-between px-4 py-2 bg-zinc-900 lg:hidden z-10">
