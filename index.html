@@ -69,10 +69,10 @@
                         </button>
                         
                         <!-- Settings button -->
-                        <button @click="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'settingsTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
+                        <!-- <button @click="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'settingsTab'" class="p-2 transition-colors rounded-lg shadow-md hover:bg-zinc-800 hover:text-white focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-zinc-600 focus:ring-offset-white focus:ring-offset-1" :class="(isSidebarOpen && currentSidebarTab == 'settingsTab') ? 'text-white bg-zinc-600' : 'text-white bg-zinc-800'">
                             <span class="sr-only">Toggle settings panel</span>
                             <svg aria-hidden="true" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                        </button>
+                        </button> -->
                     </div>
 
                     <!-- User avatar -->
@@ -235,22 +235,60 @@
                                 </span>
                                 <span class="text-sm">Notifications</span>
                             </a>
-                            <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
+                            <!-- <a href="#" class="flex lg:hidden items-center space-x-2 text-zinc-400 transition-colors rounded-lg group hover:bg-zinc-600 hover:text-white">
                                 <span aria-hidden="true" class="p-2 transition-colors rounded-lg group-hover:bg-zinc-700 group-hover:text-white">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                                 </span>
                                 <span class="text-sm">Settings</span>
-                            </a>
+                            </a> -->
                         </div>
                     </nav>
 
-                    <section x-show="currentSidebarTab == 'notificationsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
-                        <h2 class="text-white">Notifications</h2>
+                    <section x-show="currentSidebarTab == 'notificationsTab'" class="flex flex-col h-full text-zinc-400">
+                        <h2 class="text-white flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">Notifications</h2>
+                        <ul class="overflow-y-auto divide-y divide-zinc-800 max-h-80">
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have received a purchase order amount of $104.85.</div>
+                                    <div class="text-xs text-right"><small>30 minutes ago</small></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have 3 new task requests by Alan to approve.</div>
+                                    <div class="text-xs text-right"><small>5 hours ago</small></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have 99 unread messages.</div>
+                                    <div class="text-xs text-right"><small>10 days ago</small></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have 6 new notifications.</div>
+                                    <div class="text-xs text-right"><small>2 weeks ago</small></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have a pending delivery for order #18035025.</div>
+                                    <div class="text-xs text-right"><small>3 months ago</small></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:text-zinc-500">
+                                    <div class="h-8 text-xs font-light">You have made a new transaction amout of $308.95.</div>
+                                    <div class="text-xs text-right"><small>4 years ago</small></div>
+                                </a>
+                            </li>
+                        </ul>
                     </section>
 
-                    <section x-show="currentSidebarTab == 'settingsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
+                    <!-- <section x-show="currentSidebarTab == 'settingsTab'" class="flex items-center justify-center flex-shrink-0 px-4 py-[28.5px] uppercase font-extrabold tracking-wider">
                         <h2 class="text-white">Settings</h2>
-                    </section>
+                    </section> -->
                 </div>
             </div>
             <div class="container max-w-4xl xl:max-w-7xl mx-auto">
